@@ -1,12 +1,33 @@
-# React + Vite
+# **Blog Management System**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a full-stack Blog Management System where users can create, read, update, and delete blog posts. The project includes AI-generated blog summaries, an intuitive user interface, and an image upload feature with optimization.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## **Features**
 
-## Expanding the ESLint configuration
+- **Create Blogs**: Add blogs with a title, description, category, and image.
+- **AI-Generated Summaries**: Automatically generates a summary for each blog using Google's Gemini AI.
+- **Image Upload and Optimization**: Upload blog images and optimize them with ImageKit.
+- **Comment Management**: Add, view, and manage comments on blogs.
+- **Toggle Publish Status**: Publish or unpublish blogs easily.
+- **Dark Mode Support**: Improved readability with dark mode integration.
+- **Responsive Design**: Fully responsive user interface.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## **Tech Stack**
+
+### **Frontend**
+- React.js
+- React Router
+- TailwindCSS
+- Moment.js (for date formatting)
+
+### **Backend**
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+- ImageKit (for image optimization)
+- Google Gemini AI (for blog description and summary)
+

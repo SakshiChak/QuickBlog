@@ -85,7 +85,7 @@ const Blog = () => {
 					{data.subTitle}
 				</h1>
 				<p className="inline-block py-1 px-4 rounded-full mb-6 border text-sm border-primary/35 bg-primary/5 font-medium text-primary dark:text-blue-400">
-					Mihael Brown
+					Sakshi Chak
 				</p>
 			</div>
 
@@ -99,7 +99,16 @@ const Blog = () => {
 				<div
 					className="rich-text max-w-3xl mx-auto text-gray-700 dark:text-gray-300 leading-relaxed"
 					dangerouslySetInnerHTML={{ __html: data.description }}
-				></div>
+        ></div>
+        
+				<div className="mt-12 max-w-3xl mx-auto rich-text">
+					<h2 className=" text-gray-800 dark:text-gray-200">
+						Summary
+					</h2>
+					<p className=" text-gray-600 dark:text-gray-300 leading-relaxed">
+						{data.summary}
+          </p>
+        </div>
 
 				{/* Comments Section */}
 				<div className="mt-16 mb-12 max-w-3xl mx-auto">

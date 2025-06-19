@@ -36,7 +36,16 @@ export const addBlog = async (req, res) => {
 
         const image = optimizedImageUrl;
 
-        await Blog.create({title, subTitle, description, category, image, isPublished});
+        // Generate summary using AI
+        let summary = "";
+        try {
+            summary = await main(`Summarize this blog post: ${description}`);
+        } catch (error) {
+            console.error("AI Summary Error:", error.message);
+            summary = description.slice(0, 100) + "..."; // Fallback summary
+        }
+
+        await Blog.create({title, subTitle, description, summary, category, image, isPublished});
 
         res.json({ success: true, message: "Blog added successfully" });
 

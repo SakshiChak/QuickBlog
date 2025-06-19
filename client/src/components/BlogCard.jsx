@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const BlogCard = ({ blog }) => {
-	const { title, description, category, image, _id } = blog;
+	const { title, summary, category, image, _id } = blog;
 	const navigate = useNavigate();
 
 	return (
@@ -16,12 +16,10 @@ const BlogCard = ({ blog }) => {
 			</span>
 			<div className="p-5">
 				<h5 className="mb-2 font-medium text-gray-900 dark:text-gray-100">{title}</h5>
-				<p
-					className="mb-3 text-xs text-gray-600 dark:text-gray-400"
-					dangerouslySetInnerHTML={{
-						__html: description.slice(0, 80)
-					}}
-				></p>
+				<p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+					{summary && summary.length > 100 ? `${summary.substring(0, 100)}...` : summary || "No summary available."}
+				</p>
+				<button className="text-primary mt-4 font-medium">Read More</button>
 			</div>
 		</div>
 	);

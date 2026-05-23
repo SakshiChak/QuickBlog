@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { assets, blog_data, comments_data } from "../assets/assets";
 import Navbar from "../components/Navbar";
-import Moment from "moment";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import { useAppContext } from "../context/AppContext";
+import Moment from "moment";
 import toast from "react-hot-toast";
 
 const Blog = () => {
@@ -111,55 +111,49 @@ const Blog = () => {
 			</div>
 
 			<div className="mx-4 max-w-5xl md:mx-auto my-12 space-y-12">
-				<img
-					src={data.image}
-					alt="Blog Image"
-					className="rounded-3xl mb-6 shadow-lg"
-				/>
+				<img src={data.image} alt="Blog Image" className="rounded-3xl mb-6 shadow-lg"/>
 
-				<div
-					className="rich-text max-w-3xl mx-auto text-gray-700 dark:text-gray-300 leading-relaxed"
-					dangerouslySetInnerHTML={{ __html: data.description }}
-        ></div>
+				<div className="rich-text max-w-3xl mx-auto text-gray-700 dark:text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: data.description }}></div>
         
 				<div className="mt-12 max-w-3xl mx-auto rich-text">
-					<h2 className=" text-gray-800 dark:text-gray-200">
-						Summary
-					</h2>
-				<p className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-					{data.summary}
-				</p>
-					<p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-						Comments ({comments.length})
-					</p>
+					<h2 className=" text-gray-800 dark:text-gray-200">Summary</h2>
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">{data.summary}</p>
 
-					<div className="flex flex-col gap-6 mt-6">
-						{comments.map((item, index) => (
-              <div key={index}
-                className="relative bg-primary/2 dark:bg-gray-800 border border-primary/5 dark:border-gray-600 p-4 rounded-lg shadow-sm"
-              >
-								<div className="flex items-center gap-2 mb-2">
-									<img src={assets.user_icon} alt="User" className="w-8 h-8 rounded-full shadow-sm"/>
-									<p className="font-medium text-gray-800 dark:text-gray-200">{item.name}</p>
-								</div>
-								<p className="text-sm text-gray-600 dark:text-gray-400 ml-11">{item.content}</p>
-                <div className="absolute right-4 bottom-3 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                  {Moment(item.createdAt).fromNow()}
-                </div>
+					{comments.length > 0 ? (
+						<div className="mt-8">
+							<p className="text-lg font-semibold text-gray-800 dark:text-gray-200">Comments ({comments.length})</p>
+
+							<div className="flex flex-col gap-6 mt-6">
+								{comments.map((item) => (
+									<div key={item._id || item.createdAt}
+										className="relative bg-primary/2 dark:bg-gray-800 border border-primary/5 dark:border-gray-600 p-4 rounded-lg shadow-sm"
+									>
+										<div className="flex items-center gap-2 mb-2">
+											<img src={assets.user_icon} alt="User" className="w-8 h-8 rounded-full shadow-sm"/>
+											<p className="font-medium text-gray-800 dark:text-gray-200 mt-4">{item.name}</p>
+                    </div>
+                    
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-11">{item.content}</p> 
+                    
+                    <div className="absolute right-4 bottom-3 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                      {Moment(item.createdAt).fromNow()}
+                    </div>
+									</div>
+								))}
 							</div>
-						))}
-					</div>
+						</div>
+					) : (
+						<div className="mt-8 p-6 rounded-xl bg-primary/5 dark:bg-gray-800 border border-primary/10 dark:border-gray-700">
+							<p className="text-gray-700 dark:text-gray-300">
+								No comments yet. Be the first to add one below.
+							</p>
+						</div>
+					)}
         </div>
-        
+
         {/* Add Comment Section */}
-        <div className="max-w-3xl mx-auto mt-12 p-4 bg-white dark:bg-gray-900  rounded-lg">
-          <p className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-6">
-            Add Your Comment
-          </p>
-          <form
-            onSubmit={addComment}
-            className="flex flex-col  gap-4"
-          >
+        <div className="max-w-3xl mx-auto mt-12 p-4 bg-white dark:bg-gray-900 rounded-lg">
+          <form onSubmit={addComment} className="flex flex-col  gap-4">
             <input
               onChange={(e) => setName(e.target.value)}
               value={name}
@@ -177,10 +171,7 @@ const Blog = () => {
             ></textarea>
 
             <div className="self-start">
-              <button
-                type="submit"
-                className="bg-primary text-white font-semibold rounded-md py-2 px-4 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 transform cursor-pointer"
-              >
+              <button type="submit" className="bg-primary text-white font-semibold rounded-md py-2 px-4 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 transform cursor-pointer">
                 Submit
               </button>
             </div>
@@ -191,34 +182,34 @@ const Blog = () => {
         
          {/* Share Buttons */}
         <div className="max-w-3xl mx-auto my-12  p-4 bg-white dark:bg-gray-900  rounded-lg">
-  <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-    Enjoyed this article? Share it with your friends!
-  </p>
-  
-  <div className="flex gap-4 mt-4">
-    <img
-      src={assets.facebook_icon}
-      width={40}
-      height={40}
-      alt="Facebook"
-      className="cursor-pointer hover:scale-110 transition-transform"
-    />
-    <img
-      src={assets.twitter_icon}
-      width={40}
-      height={40}
-      alt="Twitter"
-      className="cursor-pointer hover:scale-110 transition-transform"
-    />
-    <img
-      src={assets.googleplus_icon}
-      width={40}
-      height={40}
-      alt="Google Plus"
-      className="cursor-pointer hover:scale-110 transition-transform"
-    />
-  </div>
-</div>
+          <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+            Enjoyed this article? Share it with your friends!
+          </p>
+          
+          <div className="flex gap-4 mt-4">
+            <img
+              src={assets.facebook_icon}
+              width={40}
+              height={40}
+              alt="Facebook"
+              className="cursor-pointer hover:scale-110 transition-transform"
+            />
+            <img
+              src={assets.twitter_icon}
+              width={40}
+              height={40}
+              alt="Twitter"
+              className="cursor-pointer hover:scale-110 transition-transform"
+            />
+            <img
+              src={assets.googleplus_icon}
+              width={40}
+              height={40}
+              alt="Google Plus"
+              className="cursor-pointer hover:scale-110 transition-transform"
+            />
+          </div>
+        </div>
 
       </div>
       <Footer/>

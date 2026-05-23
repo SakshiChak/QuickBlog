@@ -17,16 +17,27 @@ const Blog = () => {
   const [comments, setComments] = useState([]);
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
-  
+  const [loading, setLoading] = useState(true);
 
 	const fetchBlogData = async () => {
+		setLoading(true);
+		setData(null);
 		try {
-      const { data } = await axios.get(`/api/blog/${id}`)
-      data.success ? setData(data.blog): toast.error(data.message);
+      const { data } = await axios.get(`/api/blog/${id}`);
+      if (data.success) {
+        setData(data.blog);
+      } else {
+        setData(null);
+        toast.error(data.message);
+      }
     } catch (error) {
-      toast.error(error.message)
+      setData(null);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
 	};
+
 	const fetchComments = async () => {
     try {
         const { data } = await axios.post('/api/blog/comments',{blogId: id});
@@ -52,19 +63,29 @@ const Blog = () => {
       } else {
         toast.error(data.message);
       }
-    }
-    catch (error) {
+    } catch (error) {
       toast.error(error.message);
-      
     }
   };
 
 	useEffect(() => {
 		fetchBlogData();
 		fetchComments();
-	}, []);
+	}, [id]);
 
-	return data ? (
+	if (loading) {
+		return <div><Loader /></div>;
+	}
+
+	if (!data) {
+		return (
+			<div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
+				<p className="text-lg text-gray-800 dark:text-gray-200">Blog not found or unpublished.</p>
+			</div>
+		);
+	}
+
+	return (
 		<div className="relative dark:bg-gray-900 dark:text-white">
 			<img
 				src={assets.gradientBackground}
@@ -105,13 +126,9 @@ const Blog = () => {
 					<h2 className=" text-gray-800 dark:text-gray-200">
 						Summary
 					</h2>
-					<p className=" text-gray-600 dark:text-gray-300 leading-relaxed">
-						{data.summary}
-          </p>
-        </div>
-
-				{/* Comments Section */}
-				<div className="mt-16 mb-12 max-w-3xl mx-auto">
+				<p className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+					{data.summary}
+				</p>
 					<p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
 						Comments ({comments.length})
 					</p>
@@ -206,8 +223,6 @@ const Blog = () => {
       </div>
       <Footer/>
 		</div>
-	) : (
-		<div><Loader /></div>
 	);
 };
 

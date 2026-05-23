@@ -39,10 +39,14 @@ export const addBlog = async (req, res) => {
         // Generate summary using AI
         let summary = "";
         try {
-            summary = await main(`Summarize this blog post: ${description}`);
+            summary = await main(`Summarize this blog post in 2-3 sentences for a preview: ${description}`);
+            if (!summary || !summary.trim()) {
+                throw new Error("Empty AI summary");
+            }
+            summary = summary.trim().replace(/\s+/g, " ");
         } catch (error) {
             console.error("AI Summary Error:", error.message);
-            summary = description.slice(0, 100) + "..."; // Fallback summary
+            summary = description ? description.slice(0, 100).trim() + "..." : "";
         }
 
         await Blog.create({title, subTitle, description, summary, category, image, isPublished});
@@ -66,7 +70,7 @@ export const getAllBlogs = async (req, res) => {
 export const getBlogById = async (req, res) => { 
     try {
         const {blogId} = req.params;
-        const blog = await Blog.findById(blogId);
+        const blog = await Blog.findOne({ _id: blogId, isPublished: true });
         if (!blog) {
             return res.json({ success: false, message: "Blog not found" });
         }

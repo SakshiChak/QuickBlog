@@ -59,8 +59,10 @@ const AddBlog = () => {
         toast.success(data.message);
         setImage(false);
         setTitle('');
-        quillRef.current.root.innerHTML = '';
+        setsubTitle('');
         setCategory('Startup');
+        setIsPublished(false);
+        quillRef.current.root.innerHTML = '';
       }
     } catch (error) {
       toast.error(error.message);
@@ -108,7 +110,7 @@ const AddBlog = () => {
         </div>
 
         <p className='mt-4 dark:text-gray-200'>Blog category</p>
-        <select onChange={(e) => setCategory(e.target.value)} name="category" className='mt-2 px-3 py-2  border border-gray-300 dark:border-gray-600 outline-none rounded bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200'>
+        <select value={category} onChange={(e) => setCategory(e.target.value)} name="category" className='mt-2 px-3 py-2  border border-gray-300 dark:border-gray-600 outline-none rounded bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200'>
           <option value="">Select Category</option>
           {blogCategories.map((item , index) => {
             return <option key={index} value={item}>{item}</option>
